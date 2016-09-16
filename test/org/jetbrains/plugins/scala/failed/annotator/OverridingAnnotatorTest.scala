@@ -100,4 +100,23 @@ class OverridingAnnotatorTest extends OverridingAnnotatorTestBase {
       case Nil =>
     }
   }
+
+  def testScl10762(): Unit = {
+    assertNothing(
+      messages(
+        """
+          |trait HasPathDependentType {
+          |  type DT
+          |}
+          |
+          |trait T {
+          |  def foo(hpdt: HasPathDependentType)(arg: hpdt.DT): hpdt.DT
+          |}
+          |
+          |class TImpl extends T {
+          |  override def foo(hpdt: HasPathDependentType)(arg: hpdt.DT): hpdt.DT = arg
+          |}
+        """.stripMargin)
+    )
+  }
 }

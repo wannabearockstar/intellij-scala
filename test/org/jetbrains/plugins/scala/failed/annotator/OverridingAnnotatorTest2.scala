@@ -50,4 +50,12 @@ class OverridingAnnotatorTest2 extends ScalaLightCodeInsightFixtureTestAdapter {
         |  def apply(list: => Iterable[String]): ErrorHighlighting = { this ("string") }
       """.stripMargin)
   }
+
+  def testScl10767(): Unit = {
+    checkTextHasNoErrors(
+      """def test:String = ""
+        |def test(arg:String):String = ""
+        |Some("").foreach(test)
+      """.stripMargin)
+  }
 }
